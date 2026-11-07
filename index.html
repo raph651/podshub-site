@@ -4,141 +4,68 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PodsHub</title>
-<meta name="description" content="Control your Mac with AirPods: point with your head, click with a tap or a sound, slide the case like a mouse.">
+<meta name="description" content="Control your Mac with AirPods.">
 <style>
-  :root{
-    --bg1:#6db5ff; --bg2:#c7e3ff; --bg3:#f2f7ff;
-    --ink:#1c2569; --soft:#6676b8; --card:rgba(255,255,255,.78); --stroke:#fff;
-    --accent:#5a49e6; --accent2:#ff7ad9; --shadow:rgba(64,102,230,.16);
-  }
-  @media (prefers-color-scheme: dark){
-    :root{ --bg1:#15213f; --bg2:#0f1730; --bg3:#0a1020; --ink:#e8ecff; --soft:#9fabdc; --card:rgba(255,255,255,.07); --stroke:rgba(255,255,255,.12); --accent:#8a7dff; --shadow:rgba(0,0,0,.4); }
-  }
+  :root{ --bg1:#6db5ff; --bg2:#c7e3ff; --bg3:#f2f7ff; --ink:#1c2569; --soft:#6676b8; --card:rgba(255,255,255,.78); --stroke:#fff; --accent:#5a49e6; --shadow:rgba(64,102,230,.18); }
+  @media (prefers-color-scheme: dark){ :root{ --bg1:#15213f; --bg2:#0f1730; --bg3:#0a1020; --ink:#e8ecff; --soft:#9fabdc; --card:rgba(255,255,255,.07); --stroke:rgba(255,255,255,.12); --accent:#8a7dff; --shadow:rgba(0,0,0,.4); } }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0;color:var(--ink);font:16px/1.55 ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  body{margin:0;color:var(--ink);font:17px/1.5 ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
        background:linear-gradient(180deg,var(--bg1) 0,var(--bg2) 420px,var(--bg3) 900px) fixed;min-height:100vh}
-  .wrap{max-width:980px;margin:0 auto;padding:0 20px}
-  header{padding:28px 0 8px;display:flex;align-items:center;justify-content:space-between}
-  .logo{font-weight:800;font-size:22px;letter-spacing:-.02em}
-  nav a{color:var(--ink);text-decoration:none;font-weight:600;margin-left:20px;opacity:.8}
-  nav a:hover{opacity:1}
-  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding:34px 0 54px}
-  h1{font-size:clamp(34px,6vw,58px);line-height:1.04;letter-spacing:-.035em;margin:0 0 14px;font-weight:800}
-  .lead{font-size:19px;color:var(--soft);margin:0 0 26px;max-width:30em}
-  .btns{display:flex;gap:12px;flex-wrap:wrap}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:999px;font-weight:700;text-decoration:none;
-       background:var(--accent);color:#fff;box-shadow:0 10px 26px -8px var(--accent)}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px}
+  header{padding:26px 0 0;font-weight:800;font-size:22px;letter-spacing:-.02em}
+  .hero{text-align:center;padding:30px 0 34px}
+  h1{font-size:clamp(34px,6.5vw,60px);line-height:1.04;letter-spacing:-.035em;margin:0 0 10px;font-weight:800}
+  .lead{font-size:20px;color:var(--soft);margin:0 0 24px}
+  .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{padding:13px 24px;border-radius:999px;font-weight:700;text-decoration:none;background:var(--accent);color:#fff;box-shadow:0 10px 26px -8px var(--accent)}
   .btn.ghost{background:var(--card);color:var(--ink);box-shadow:0 6px 18px -8px var(--shadow);border:1px solid var(--stroke)}
-  .btn:hover{transform:translateY(-1px)}
   .note{font-size:13px;color:var(--soft);margin-top:12px}
-  .stage{background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,.05));border:1px solid var(--stroke);border-radius:34px;
-         padding:26px;box-shadow:0 24px 60px -24px var(--shadow);display:grid;place-items:center}
-  .bot{width:min(300px,70vw);height:auto;animation:float 5s ease-in-out infinite}
-  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-  @media (prefers-reduced-motion:reduce){.bot{animation:none}}
-  h2{font-size:30px;letter-spacing:-.025em;margin:0 0 18px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px}
-  .card{background:var(--card);border:1px solid var(--stroke);border-radius:22px;padding:20px 22px;box-shadow:0 14px 34px -18px var(--shadow)}
-  .card h3{margin:0 0 6px;font-size:18px}
-  .card p{margin:0;color:var(--soft);font-size:15px}
-  .ico{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;margin-bottom:12px;color:#fff;font-size:21px}
-  section{padding:26px 0}
-  ol,ul{margin:0;padding-left:1.2em;color:var(--soft)}
-  li{margin:7px 0} li b{color:var(--ink)}
-  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  code{font:13px ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(120,130,200,.16);padding:2px 7px;border-radius:7px;word-break:break-all}
-  pre{margin:10px 0 0;padding:14px 16px;background:rgba(20,28,70,.9);color:#dfe6ff;border-radius:14px;overflow:auto;font:12.5px ui-monospace,Menlo,monospace}
-  footer{padding:30px 0 60px;color:var(--soft);font-size:13px}
-  @media (max-width:760px){.hero{grid-template-columns:1fr}.two{grid-template-columns:1fr}nav{display:none}}
+  .shot{display:block;margin:0 auto 40px;max-width:min(380px,100%);height:auto;border-radius:20px;box-shadow:0 28px 70px -26px var(--shadow);border:1px solid var(--stroke)}
+  .demos{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:18px;margin-bottom:34px}
+  figure{margin:0;background:var(--card);border:1px solid var(--stroke);border-radius:22px;overflow:hidden;box-shadow:0 14px 34px -18px var(--shadow)}
+  video{display:block;width:100%;height:auto}
+  figcaption{padding:12px 16px;font-weight:700}
+  figcaption small{font-weight:600;color:var(--soft);margin-left:6px}
+  .steps{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:0 0 26px}
+  .step{background:var(--card);border:1px solid var(--stroke);border-radius:999px;padding:9px 18px;font-weight:600;font-size:15px}
+  footer{text-align:center;color:var(--soft);font-size:13px;padding:6px 0 56px}
+  details{margin-top:10px} summary{cursor:pointer}
+  pre{text-align:left;margin:10px auto 0;padding:12px 14px;max-width:720px;background:rgba(20,28,70,.9);color:#dfe6ff;border-radius:12px;overflow:auto;font:11.5px ui-monospace,Menlo,monospace}
+  @media (max-width:560px){.demos{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header><div class="logo">PodsHub</div><nav><a href="#see">Screenshot</a><a href="#features">Features</a><a href="#install">Install</a><a href="#status">Status</a></nav></header>
-
+  <header>PodsHub</header>
   <div class="hero">
-    <div>
-      <h1>Control your Mac with your AirPods.</h1>
-      <p class="lead">Point with your head. Click with a tap on an earbud, or with a sound. Or slide the case across a desk like a mouse.</p>
-      <div class="btns">
-        <a class="btn" href="https://github.com/raph651/podshub-site/releases/download/v0.1.0/PodsHub-0.1.0.dmg">Download for Mac (.dmg)</a>
-        <a class="btn ghost" href="https://github.com/raph651/podshub-site/releases/download/v0.1.0/PodsHub-0.1.0.zip">.zip</a>
-      </div>
-      <div class="note">Version 0.1.0 &middot; macOS 14 or newer &middot; Apple silicon &middot; early release, see <a href="#status" style="color:inherit">status</a></div>
+    <h1>Control your Mac with AirPods.</h1>
+    <p class="lead">Point with your head. Click with a tap or a sound.</p>
+    <div class="btns">
+      <a class="btn" href="https://github.com/raph651/podshub-site/releases/download/v0.2.0/PodsHub-0.2.0.dmg">Download for Mac</a>
+      <a class="btn ghost" href="https://github.com/raph651/podshub-site/releases/download/v0.2.0/PodsHub-0.2.0.zip">.zip</a>
     </div>
-    <div class="stage">
-      <svg class="bot" viewBox="0 0 300 300" role="img" aria-label="The PodsHub helper bot">
-        <defs>
-          <linearGradient id="w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e3ecff"/></linearGradient>
-          <filter id="s" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#4066e6" flood-opacity=".25"/></filter>
-        </defs>
-        <ellipse cx="150" cy="276" rx="92" ry="9" fill="#4066e6" opacity=".18"/>
-        <rect x="52" y="168" width="34" height="74" rx="17" fill="url(#w)" transform="rotate(14 69 205)" filter="url(#s)"/>
-        <rect x="214" y="168" width="34" height="74" rx="17" fill="url(#w)" transform="rotate(-14 231 205)" filter="url(#s)"/>
-        <ellipse cx="150" cy="212" rx="78" ry="70" fill="url(#w)" stroke="#fff" stroke-width="4" filter="url(#s)"/>
-        <circle cx="150" cy="216" r="6" fill="#3fff14"/>
-        <ellipse cx="150" cy="116" rx="94" ry="76" fill="url(#w)" stroke="#fff" stroke-width="5" filter="url(#s)"/>
-        <ellipse cx="108" cy="72" rx="30" ry="9" fill="#fff" transform="rotate(-18 108 72)" opacity=".95"/>
-        <line x1="112" y1="120" x2="188" y2="120" stroke="#1a1f38" stroke-width="3"/>
-        <ellipse cx="108" cy="120" rx="11" ry="15" fill="#1a1f38"/><ellipse cx="192" cy="120" rx="11" ry="15" fill="#1a1f38"/>
-        <ellipse cx="82" cy="146" rx="13" ry="8" fill="#ff7ad9" opacity=".45"/><ellipse cx="218" cy="146" rx="13" ry="8" fill="#ff7ad9" opacity=".45"/>
-      </svg>
-    </div>
+    <div class="note">0.2.0 &middot; macOS 14+ &middot; Apple silicon &middot; early release</div>
   </div>
 
-  <section id="see">
-    <h2>See it</h2>
-    <figure style="margin:0;display:grid;place-items:center">
-      <img src="screenshot.png" alt="The PodsHub window: the helper bot, the Head and Case switch, and the vertical sensitivity slider" width="517" height="668"
-           style="max-width:100%;height:auto;border-radius:20px;box-shadow:0 28px 70px -26px var(--shadow);border:1px solid var(--stroke)">
-      <figcaption class="note">The main window: the bot mirrors your head, <b>Head</b> / <b>Case</b> picks what moves the cursor, and the slider sets sensitivity.</figcaption>
-    </figure>
-  </section>
+  <img class="shot" src="screenshot.png" alt="The PodsHub window" width="380">
 
-  <section id="features">
-    <h2>What it does</h2>
-    <div class="grid">
-      <div class="card"><div class="ico" style="background:#6a7df0">&#9678;</div><h3>Head mouse</h3><p>Where you face is where the cursor goes. Set up once per pair of AirPods by following a few glowing targets, then tune horizontal and vertical sensitivity separately.</p></div>
-      <div class="card"><div class="ico" style="background:#4fb8e8">&#9757;</div><h3>Tap to click</h3><p>One tap clicks, two double-click, three start a scroll mode for reading pages. The cursor is corrected for the knock, so it doesn't jump.</p></div>
-      <div class="card"><div class="ico" style="background:#ee8bc6">&#9835;</div><h3>Sound click</h3><p>Teach it a sound: a short one clicks, two double-click, a long one holds the button. It listens on the Mac, never on your AirPods' mic.</p></div>
-      <div class="card"><div class="ico" style="background:#f5ae83">&#9645;</div><h3>Case mouse</h3><p>Slide an AirPod, or the case with the buds in it, across a table to move the cursor. A 3D case on screen opens and closes its lid as you stop and move.</p></div>
-      <div class="card"><div class="ico" style="background:#8e84e8">&#9679;</div><h3>Floating bot</h3><p>A small bot head on your screen. Rest the cursor on it to turn PodsHub on or off, or let it open into four buttons: recentre, open, sound, off.</p></div>
-      <div class="card"><div class="ico" style="background:#6fc9a6">&#9728;</div><h3>Yours, per AirPods</h3><p>Each pair keeps its own setup and name. Four themes: blue, pink, white and dark. Say &ldquo;pod&rdquo; for Apple Dictation, &ldquo;pod close&rdquo; to switch off.</p></div>
-    </div>
-  </section>
+  <div class="demos">
+    <figure><video src="media/tap.mp4" poster="media/tap.jpg" autoplay muted loop playsinline preload="metadata"></video><figcaption>Tap an earbud to click</figcaption></figure>
+    <figure><video src="media/bubble.mp4" poster="media/bubble.jpg" autoplay muted loop playsinline preload="metadata"></video><figcaption>Rest on the bot to turn it on, off or open the menu</figcaption></figure>
+    <figure><video src="media/voice-click.mp4" poster="media/voice-click.jpg" autoplay muted loop playsinline preload="metadata"></video><figcaption>Click with a sound <small>experimental</small></figcaption></figure>
+    <figure><video src="media/pod.mp4" poster="media/pod.jpg" autoplay muted loop playsinline preload="metadata"></video><figcaption>Say &ldquo;pod&rdquo; for dictation <small>experimental</small></figcaption></figure>
+  </div>
 
-  <section id="install">
-    <h2>Install</h2>
-    <div class="two">
-      <div class="card"><h3>1. Open it</h3>
-        <ol><li>Open the <b>.dmg</b> and drag <b>PodsHub</b> to Applications.</li>
-        <li>The app is signed with a development certificate and is <b>not notarized</b>, so the first time: right-click it and choose <b>Open</b>.</li>
-        <li>Or, in Terminal: <code>xattr -dr com.apple.quarantine /Applications/PodsHub.app</code></li></ol></div>
-      <div class="card"><h3>2. Allow what it needs</h3>
-        <ul><li><b>Motion &amp; Fitness</b>: head and earbud motion.</li>
-        <li><b>Accessibility</b>: moving the mouse, clicking, starting dictation.</li>
-        <li><b>Microphone</b> and <b>Speech Recognition</b>: only for sound click and &ldquo;pod&rdquo;. Speech is recognised on your Mac only.</li></ul></div>
-    </div>
-    <p class="note" style="margin-top:14px">Set the AirPods as your Mac's sound output, then press <b>Full recentre</b> once. Turn PodsHub on with <b>&#8963;&#8997;P</b> (Control + Option + P), or from the ON/OFF button.</p>
-  </section>
-
-  <section id="status">
-    <h2>Honest status</h2>
-    <div class="card">
-      <ul>
-        <li>This is an <b>early version</b> built for one person's Mac. The logic has 51 automated tests, but taps, the case mouse and the sound features haven't been tested widely on real hardware.</li>
-        <li>macOS streams motion from <b>one earbud at a time</b>; the floating bot shows an L or R for the ear to tap.</li>
-        <li>The case mouse works from an accelerometer, so it is rough: good for short slides, not for slow, precise movement.</li>
-        <li>The 3D case is a simple stand-in model, not a photo-real one.</li>
-      </ul>
-    </div>
-  </section>
+  <div class="steps">
+    <span class="step">1&ensp;Open the .dmg, drag to Applications</span>
+    <span class="step">2&ensp;First launch: right-click &rarr; Open</span>
+    <span class="step">3&ensp;Allow Motion &amp; Accessibility</span>
+  </div>
 
   <footer>
-    <div>Checksums (SHA-256) for version 0.1.0:</div>
-    <pre>9508172d2be99a8255bacea3a74184b0baca24d12da687e2e4e8a45f27da007e  PodsHub-0.1.0.dmg
-afd4f0c857cefc9fc395703b5445739f7b029d52c09eff8a9b7526df5ef0e92f  PodsHub-0.1.0.zip</pre>
+    Not notarized &middot; case mouse is still in development
+    <details><summary>Checksums</summary><pre>6dbbdc4ad7470fb4eb9c3f08dd61b0b9b61edac065f63396071f4c0af69a4b5d  PodsHub-0.2.0.dmg
+fbb4bb6f60c2b8821b6fc10963d9575509c99cc25d059042616558f488e7b3b3  PodsHub-0.2.0.zip</pre></details>
   </footer>
 </div>
 </body>
